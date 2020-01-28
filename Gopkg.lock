@@ -171,14 +171,15 @@
   version = "v0.3.2"
 
 [[projects]]
-  digest = "1:b2c7b66db53d632771fd58cb549e2705b70fda31b0eb53505f880000f76cbc70"
+  branch = "master"
+  digest = "1:267957e190c9af2b81e72191d5c6ee92e7beadcef87ad8d0711cbcc2a5fa9601"
   name = "google.golang.org/api"
   packages = [
-    "gensupport",
     "googleapi",
-    "googleapi/internal/uritemplates",
     "googleapi/transport",
     "internal",
+    "internal/gensupport",
+    "internal/third_party/uritemplates",
     "option",
     "testing/v1",
     "toolresults/v1beta3",
@@ -186,8 +187,7 @@
     "transport/http/internal/propagation",
   ]
   pruneopts = "UT"
-  revision = "dec2ee309f5b09fc59bc40676447c15736284d78"
-  version = "v0.8.0"
+  revision = "b6b5836d7694afe29d5b84d9a4c15e3d7c2677f4"
 
 [[projects]]
   digest = "1:498b722d33dde4471e7d6e5d88a5e7132d2a8306fea5ff5ee82d1f418b4f41ed"
