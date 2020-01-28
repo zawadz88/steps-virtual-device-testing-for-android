@@ -318,6 +318,13 @@ func startTestRun(configs ConfigsModel, testAssets TestAssetsAndroid) error {
 			return fmt.Errorf("failed to read response body, error: %s", err)
 		}
 		return fmt.Errorf("failed to start test: %d, error: %s", resp.StatusCode, string(body))
+	} else {
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			log.Debugf("failed to read response body, error: %s", err)
+			return nil
+		}
+		log.Debugf("status code: %d, resp body: %s", resp.StatusCode, string(body))
 	}
 
 	return nil
