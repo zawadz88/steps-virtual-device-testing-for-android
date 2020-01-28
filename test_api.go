@@ -300,6 +300,8 @@ func startTestRun(configs ConfigsModel, testAssets TestAssetsAndroid) error {
 	if err != nil {
 		return fmt.Errorf("failed to marshal test model, error: %s", err)
 	}
+	
+	log.Debugf("request body: %s", string(jsonByte))
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonByte))
 	if err != nil {
