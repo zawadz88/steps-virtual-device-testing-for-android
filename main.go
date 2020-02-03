@@ -52,10 +52,18 @@ func main() {
 	successful := true
 
 	log.Infof("Uploading app and test files")
-
+	
+    var testAssets TestAssetsAndroid
 	testAssets, err := uploadTestAssets(configs)
 	if err != nil {
-		failf("Failed to upload test assets, error: %s", err)
+		fmt.Println()
+		log.Errorf("Failed to upload test assets, error: %s", err)
+		time.Sleep(5 * time.Second)		
+
+		testAssets, err = uploadTestAssets(configs)
+		if err != nil {
+			failf("Failed to upload test assets, error: %s", err)
+		}
 	}
 	log.Donef("=> Files uploaded")
 
@@ -63,7 +71,13 @@ func main() {
 	log.Infof("Starting test")
 
 	if err = startTestRun(configs, testAssets); err != nil {
-		failf("Starting test run failed, error: %s", err)
+		fmt.Println()
+		log.Errorf("Starting test run failed, error: %s", err)
+		time.Sleep(15 * time.Second)		
+
+		if err = startTestRun(configs, testAssets); err != nil {
+			failf("Starting test run failed, error: %s", err)
+		}
 	}
 	log.Donef("=> Test started")
 
@@ -71,7 +85,7 @@ func main() {
 	log.Infof("Waiting for test results")
 	{
 		finished := false
-		retriesLeft := 5
+		retriesLeft := 10
 		printedLogs := []string{}
 		for !finished {
 			url := configs.APIBaseURL + "/" + configs.AppSlug + "/" + configs.BuildSlug + "/" + configs.APIToken
