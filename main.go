@@ -71,6 +71,7 @@ func main() {
 	log.Infof("Waiting for test results")
 	{
 		finished := false
+		retriesLeft := 5
 		printedLogs := []string{}
 		for !finished {
 			url := configs.APIBaseURL + "/" + configs.AppSlug + "/" + configs.BuildSlug + "/" + configs.APIToken
@@ -95,7 +96,15 @@ func main() {
 			}
 
 			if resp.StatusCode != http.StatusOK {
-				failf("Failed to get test status, error: %s", string(body))
+				retriesLeft--
+				if (retriesLeft == 0) {
+					failf("Failed to get test status, status code: %s, error: %s", resp.StatusCode, string(body))
+				} else {
+					fmt.Println()
+					log.Errorf("Failed to get test status, retries left: %s, status code: %s, error: %s", retriesLeft, resp.StatusCode, string(body))
+					time.Sleep(5 * time.Second)
+					continue
+				}
 			}
 
 			responseModel := &toolresults.ListStepsResponse{}
